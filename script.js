@@ -1,55 +1,94 @@
 // script for calculator project
 
 //global variabes needed for operation
-let digit1, digit2, operator, flag;
+let digit1,
+  digit2,
+  operator,
+  flag = false,
+  flag2 = false;
 
 // functions for the math operations
 
 function add(a, b) {
-  console.log(a + b);
+  return a + b;
 }
 
 function subtract(a, b) {
-  console.log(a - b);
+  return a - b;
 }
 
 function multiply(a, b) {
-  console.log(a * b);
+  return a * b;
 }
 
 function divide(a, b) {
-  console.log(a / b);
+  return b === 0 ? `E-- divison by 0` : a / b;
 }
 
 // functions for operations
 
-function clear() {
+function clearScreen() {
   const screen = document.querySelector(".screen > div");
   screen.textContent = "0";
+  flag = false;
+  digit1 = 0;
+  digit2 = 0;
+  operator = "";
 }
 
 function operate(operator, a, b) {
   switch (operator) {
     case "+":
-      add(a, b);
-      break;
+      return add(a, b);
+
     case "-":
-      subtract(a, b);
-      break;
+      return subtract(a, b);
+
     case "*":
-      multiply(a, b);
-      break;
+      return multiply(a, b);
+
     case "/":
-      divide(a, b);
-      break;
+      return divide(a, b);
   }
 }
 
-function decimal() {}
-
-function writeNumber(e) {
+function addDecimal() {
   const screen = document.querySelector(".screen > div");
-  screen.textContent += e.target.id;
+  let content = screen.textContent;
+
+  if (content.includes(".") || flag === true) {
+    return;
+  } else {
+    screen.textContent += ".";
+  }
+}
+
+function writeDigitToScreen(e) {
+  const screen = document.querySelector(".screen > div");
+  if (flag2) {
+    screen.textContent = "";
+    screen.textContent = e.target.id;
+    flag2 = false;
+  } else if (screen.textContent === "0") {
+    screen.textContent = "";
+    screen.textContent = e.target.id;
+  } else {
+    screen.textContent += e.target.id;
+  }
+  console.log(
+    `NUMBER ${e.target.id}, flag ${flag}, flag2 ${flag2}, digit1 ${digit1}, digit2 ${digit2}, operator ${operator}`
+  );
+}
+
+// function to update digit1
+function updateDigitOne() {
+  const numberOnScreen = document.querySelector(".screen > div").textContent;
+  digit1 = +numberOnScreen;
+}
+
+// function update operator
+function updateOperator(operation) {
+  operator = operation;
 }
 
 //event listeners
@@ -58,5 +97,46 @@ function writeNumber(e) {
 const digitKeys = document.querySelectorAll(".number");
 
 digitKeys.forEach((digit) => {
-  digit.addEventListener("click", writeNumber);
+  digit.addEventListener("click", writeDigitToScreen);
+});
+
+const operations = document.querySelectorAll(".operator");
+operations.forEach((operation) =>
+  operation.addEventListener("click", (e) => {
+    if (flag) {
+      const screen = document.querySelector(".screen > div");
+      digit2 = +screen.textContent;
+      screen.textContent = `${operate(operator, digit1, digit2)}`;
+      digit1 = +screen.textContent;
+    } else {
+      updateDigitOne();
+      flag = true;
+    }
+    updateOperator(e.target.id);
+    flag2 = true;
+    console.log(
+      `OPERATOR ${e.target.id}, flag ${flag}, flag2 ${flag2}, digit1 ${digit1}, digit2 ${digit2}, operator ${operator}`
+    );
+  })
+);
+
+const clear = document.getElementById("clr");
+clear.addEventListener("click", clearScreen);
+
+const equals = document.getElementById("=");
+equals.addEventListener("click", () => {
+  const screen = document.querySelector(".screen > div");
+  digit2 = +screen.textContent;
+  screen.textContent = operate(operator, digit1, digit2);
+  flag = false;
+  updateOperator("");
+  flag2 = false;
+  console.log(
+    `flag ${flag}, flag2 ${flag2}, digit1 ${digit1}, digit2 ${digit2}, operator ${operator}`
+  );
+});
+
+const decimalPoint = document.getElementById("decimal");
+decimalPoint.addEventListener("click", function () {
+  addDecimal();
 });
