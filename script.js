@@ -1,9 +1,9 @@
 // script for calculator project
 
 //global variabes needed for operation
-let digit1,
-  digit2,
-  operator,
+let digit1 = 0,
+  digit2 = 0,
+  operator = "",
   flag = false,
   flag2 = false;
 
@@ -56,13 +56,15 @@ function addDecimal() {
   const screen = document.querySelector(".screen > div");
   let content = screen.textContent;
 
-  if (!content.includes(".") && flag === true) {
+  if (!content.includes(".") && flag) {
     screen.textContent = "0.";
-    flag2 = false;
   } else if (!content.includes(".")) {
     screen.textContent += ".";
-    flag2 = false;
+  } else if (content.includes(".") && flag) {
+    screen.textContent = "";
+    screen.textContent = "0.";
   }
+  flag2 = false;
   console.log(
     `flag ${flag}, flag2 ${flag2}, digit1 ${digit1}, digit2 ${digit2}, operator ${operator}`
   );
@@ -75,10 +77,13 @@ function writeDigitToScreen(e) {
     screen.textContent = e.target.textContent;
     flag2 = false;
   } else if (screen.textContent === "0") {
-    screen.textContent = "";
     screen.textContent = e.target.textContent;
   } else {
-    screen.textContent += e.target.textContent;
+    if (digitCounter(screen.textContent) >= 8) {
+      return;
+    } else {
+      screen.textContent += e.target.textContent;
+    }
   }
   console.log(
     `NUMBER ${e.target.textContent}, flag ${flag}, flag2 ${flag2}, digit1 ${digit1}, digit2 ${digit2}, operator ${operator}`
@@ -96,6 +101,11 @@ function updateOperator(operation) {
   operator = operation;
 }
 
+//count digits on screen
+function digitCounter(string) {
+  return string.length;
+}
+
 //event listeners
 
 // event listner for numbers
@@ -111,7 +121,7 @@ operations.forEach((operation) =>
     if (flag) {
       const screen = document.querySelector(".screen > div");
       digit2 = +screen.textContent;
-      screen.textContent = `${operate(operator, digit1, digit2)}`;
+      screen.textContent = `${+operate(operator, digit1, digit2).toFixed(5)}`;
       digit1 = +screen.textContent;
     } else {
       updateDigitOne();
@@ -132,10 +142,15 @@ const equals = document.getElementById("equal");
 equals.addEventListener("click", () => {
   const screen = document.querySelector(".screen > div");
   digit2 = +screen.textContent;
-  screen.textContent = operate(operator, digit1, digit2);
-  flag = false;
-  updateOperator("");
-  flag2 = false;
+  if (operator === "") {
+    screen.textContent = "0";
+  } else {
+    screen.textContent = +operate(operator, digit1, digit2).toFixed(5);
+    flag = false;
+
+    flag2 = false;
+  }
+
   console.log(
     `flag ${flag}, flag2 ${flag2}, digit1 ${digit1}, digit2 ${digit2}, operator ${operator}`
   );
