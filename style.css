@@ -127,7 +127,11 @@ img {
 }
 
 @media screen and (max-width: 400px) {
+  body {
+    overflow: hidden;
+  }
   .container {
+    margin-top: 0;
     width: 100vw;
     height: 100vh;
   }
