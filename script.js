@@ -38,16 +38,16 @@ function clearScreen() {
 
 function operate(operator, a, b) {
   switch (operator) {
-    case "+":
+    case "plus":
       return add(a, b);
 
-    case "-":
+    case "minus":
       return subtract(a, b);
 
-    case "*":
+    case "multiply":
       return multiply(a, b);
 
-    case "/":
+    case "divide":
       return divide(a, b);
   }
 }
@@ -56,7 +56,7 @@ function addDecimal() {
   const screen = document.querySelector(".screen > div");
   let content = screen.textContent;
 
-  if (!content.includes("." && flag === true)) {
+  if (!content.includes(".") && flag === true) {
     screen.textContent = "0.";
     flag2 = false;
   } else if (!content.includes(".")) {
@@ -72,16 +72,16 @@ function writeDigitToScreen(e) {
   const screen = document.querySelector(".screen > div");
   if (flag2) {
     screen.textContent = "";
-    screen.textContent = e.target.id;
+    screen.textContent = e.target.textContent;
     flag2 = false;
   } else if (screen.textContent === "0") {
     screen.textContent = "";
-    screen.textContent = e.target.id;
+    screen.textContent = e.target.textContent;
   } else {
-    screen.textContent += e.target.id;
+    screen.textContent += e.target.textContent;
   }
   console.log(
-    `NUMBER ${e.target.id}, flag ${flag}, flag2 ${flag2}, digit1 ${digit1}, digit2 ${digit2}, operator ${operator}`
+    `NUMBER ${e.target.textContent}, flag ${flag}, flag2 ${flag2}, digit1 ${digit1}, digit2 ${digit2}, operator ${operator}`
   );
 }
 
@@ -128,7 +128,7 @@ operations.forEach((operation) =>
 const clear = document.getElementById("clr");
 clear.addEventListener("click", clearScreen);
 
-const equals = document.getElementById("=");
+const equals = document.getElementById("equal");
 equals.addEventListener("click", () => {
   const screen = document.querySelector(".screen > div");
   digit2 = +screen.textContent;
