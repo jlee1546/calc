@@ -36,17 +36,14 @@ img {
 }
 /* End CSS reset */
 
-
-
 .container {
   width: 50%;
-  
+
   margin: 3.5rem auto;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-
 }
 
 .screen {
@@ -73,11 +70,9 @@ img {
   padding: 1.5rem;
   padding-right: 0.25rem;
   margin: 0.5rem;
-  border-radius: 0.50rem;
+  border-radius: 0.5rem;
   font-size: 2rem;
-  
 }
-
 
 .keypad {
   width: 100%;
@@ -100,15 +95,15 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 0 0 1px #163772 inset,0 0 0 2px rgba(255, 255, 255, 0.15) inset,0 4px 0 0#333797,0 4px 0 1px rgba(0, 0, 0, 0.4),0 4px 4px 1px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 0 1px #163772 inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset,
+    0 4px 0 0#333797, 0 4px 0 1px rgba(0, 0, 0, 0.4),
+    0 4px 4px 1px rgba(0, 0, 0, 0.5);
   border-radius: 0.75rem;
-  padding: 0.50rem;
-  
-  
+  padding: 0.5rem;
 }
 
 .keypad div:active {
-  transform: scale(.9);
+  transform: scale(0.9);
 }
 
 .keypad .number {
@@ -127,7 +122,13 @@ img {
   background: red;
 }
 
-#decimal { 
+#decimal {
   background: rgb(0, 128, 255);
 }
+
+@media screen and (max-width: 400px) {
+  .container {
+    width: 100vw;
+    height: 100vh;
+  }
 }
