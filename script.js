@@ -56,11 +56,16 @@ function addDecimal() {
   const screen = document.querySelector(".screen > div");
   let content = screen.textContent;
 
-  if (content.includes(".") || flag === true) {
-    return;
-  } else {
+  if (!content.includes("." && flag === true)) {
+    screen.textContent = "0.";
+    flag2 = false;
+  } else if (!content.includes(".")) {
     screen.textContent += ".";
+    flag2 = false;
   }
+  console.log(
+    `flag ${flag}, flag2 ${flag2}, digit1 ${digit1}, digit2 ${digit2}, operator ${operator}`
+  );
 }
 
 function writeDigitToScreen(e) {
