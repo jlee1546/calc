@@ -106,6 +106,27 @@ function digitCounter(string) {
   return string.length;
 }
 
+// change sign of value
+function changeSign() {
+  const screen = document.querySelector(".screen > div");
+  let number = screen.textContent;
+  screen.textContent = -number;
+}
+
+// change value into a percentage
+function toPercentage() {
+  const screen = document.querySelector(".screen > div");
+  let number = screen.textContent;
+  screen.textContent = number / 100;
+}
+
+// takes square root of value
+function squareRoot() {
+  const screen = document.querySelector(".screen > div");
+  let number = screen.textContent;
+  screen.textContent = Math.sqrt(number);
+}
+
 //event listeners
 
 // event listner for numbers
@@ -160,3 +181,12 @@ const decimalPoint = document.getElementById("decimal");
 decimalPoint.addEventListener("click", function () {
   addDecimal();
 });
+
+const sign = document.getElementById("posNegSign");
+sign.addEventListener("click", changeSign);
+
+const percent = document.getElementById("percent");
+percent.addEventListener("click", toPercentage);
+
+const sqrRoot = document.getElementById("root");
+sqrRoot.addEventListener("click", squareRoot);
