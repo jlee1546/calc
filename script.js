@@ -65,9 +65,6 @@ function addDecimal() {
     screen.textContent = "0.";
   }
   flag2 = false;
-  console.log(
-    `flag ${flag}, flag2 ${flag2}, digit1 ${digit1}, digit2 ${digit2}, operator ${operator}`
-  );
 }
 
 function writeDigitToScreen(e) {
@@ -79,15 +76,12 @@ function writeDigitToScreen(e) {
   } else if (screen.textContent === "0") {
     screen.textContent = e.target.textContent;
   } else {
-    if (digitCounter(screen.textContent) >= 8) {
+    if (digitCounter(screen.textContent) >= 12) {
       return;
     } else {
       screen.textContent += e.target.textContent;
     }
   }
-  console.log(
-    `NUMBER ${e.target.textContent}, flag ${flag}, flag2 ${flag2}, digit1 ${digit1}, digit2 ${digit2}, operator ${operator}`
-  );
 }
 
 // function to update digit1
@@ -127,6 +121,11 @@ function squareRoot() {
   screen.textContent = Math.sqrt(number);
 }
 
+// shortens length of string value for output to screen
+function shortenValueLength(value) {
+  return value.length > 12 ? NaN : value;
+}
+
 //event listeners
 
 // event listner for numbers
@@ -150,9 +149,6 @@ operations.forEach((operation) =>
     }
     updateOperator(e.target.id);
     flag2 = true;
-    console.log(
-      `OPERATOR ${e.target.id}, flag ${flag}, flag2 ${flag2}, digit1 ${digit1}, digit2 ${digit2}, operator ${operator}`
-    );
   })
 );
 
@@ -166,15 +162,16 @@ equals.addEventListener("click", () => {
   if (operator === "") {
     screen.textContent = "0";
   } else {
-    screen.textContent = +operate(operator, digit1, digit2).toFixed(5);
+    let value = operate(operator, digit1, digit2).toString(10);
+    let ammendedValue = shortenValueLength(value);
+    isNaN(ammendedValue)
+      ? (screen.textContent = "E-- value too large")
+      : (screen.textContent = +ammendedValue);
+
     flag = false;
 
     flag2 = false;
   }
-
-  console.log(
-    `flag ${flag}, flag2 ${flag2}, digit1 ${digit1}, digit2 ${digit2}, operator ${operator}`
-  );
 });
 
 const decimalPoint = document.getElementById("decimal");
