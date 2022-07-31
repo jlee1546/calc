@@ -37,7 +37,9 @@ img {
   height: auto;
 }
 /* End CSS reset */
-
+body {
+  background: linear-gradient(to right, #e9f8ff, #90b2d8, #c1e3ff);
+}
 .container {
   width: 50%;
 
@@ -139,6 +141,7 @@ img {
 @media screen and (max-width: 475px) {
   body {
     height: 100vh;
+    background: black;
   }
   .container {
     width: 100%;

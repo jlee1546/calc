@@ -1,32 +1,46 @@
-// script for calculator project
+// SCRIPT FOR CALCULATOR PROJECT
 
-//global variabes needed for operation
+// VARIABLES USED IN APP
 let digit1 = 0,
   digit2 = 0,
   operator = "",
   flag = false,
-  flag2 = false;
+  flag2 = false,
+  flag3 = false;
+const digitKeys = document.querySelectorAll(".number");
+const operations = document.querySelectorAll(".operator");
+const clear = document.getElementById("clr");
+const equals = document.getElementById("equal");
+const decimalPoint = document.getElementById("decimal");
+const sign = document.getElementById("posNegSign");
+const percent = document.getElementById("percent");
+const sqrRoot = document.getElementById("root");
 
-// functions for the math operations
+// FUNCTIONS PERFORMING INDIVIDUAL CALCULATIONS
 
+// function to return the sum of two values
 function add(a, b) {
   return a + b;
 }
 
+// fucntion to return the result of subtraction of two values
 function subtract(a, b) {
   return a - b;
 }
 
+// function to return product of two values
 function multiply(a, b) {
   return a * b;
 }
 
+// function to return the result of division of two values
 function divide(a, b) {
   return b === 0 ? `E-- divison by 0` : a / b;
 }
 
-// functions for operations
+// FUNCTIONS REQUIRED IN OPERATION OF CALCULATOR APP
 
+// function to clear display
 function clearScreen() {
   const screen = document.querySelector(".screen > div");
   screen.textContent = "0";
@@ -36,6 +50,7 @@ function clearScreen() {
   operator = "";
 }
 
+// function to call an operator and two values for a calculation
 function operate(operator, a, b) {
   switch (operator) {
     case "plus":
@@ -52,6 +67,7 @@ function operate(operator, a, b) {
   }
 }
 
+// fucntion to add a decimal point to screen
 function addDecimal() {
   const screen = document.querySelector(".screen > div");
   let content = screen.textContent;
@@ -66,15 +82,20 @@ function addDecimal() {
   }
   flag2 = false;
 }
-
+// function to write digits to the screen
 function writeDigitToScreen(e) {
   const screen = document.querySelector(".screen > div");
+  console.log(typeof screen.textContent);
   if (flag2) {
     screen.textContent = "";
     screen.textContent = e.target.textContent;
     flag2 = false;
   } else if (screen.textContent === "0") {
     screen.textContent = e.target.textContent;
+  } else if (flag3 === true) {
+    screen.textContent = "";
+    screen.textContent = e.target.textContent;
+    flag3 = false;
   } else {
     if (digitCounter(screen.textContent) >= 12) {
       return;
@@ -84,81 +105,71 @@ function writeDigitToScreen(e) {
   }
 }
 
-// function to update digit1
-function updateDigitOne() {
-  const numberOnScreen = document.querySelector(".screen > div").textContent;
-  digit1 = +numberOnScreen;
+// function to update digit1 value
+function updateDigitOne(value) {
+  digit1 = +value;
 }
 
-// function update operator
+// function to update digit2 value
+function updateDigitTwo(value) {
+  digit2 = +value;
+}
+
+// function to update operator
 function updateOperator(operation) {
   operator = operation;
 }
 
-//count digits on screen
+// function to count digits on screen
 function digitCounter(string) {
   return string.length;
 }
 
-// change sign of value
+// function to change sign of value
 function changeSign() {
   const screen = document.querySelector(".screen > div");
   let number = screen.textContent;
   screen.textContent = -number;
 }
 
-// change value into a percentage
+// function to change value into a percentage
 function toPercentage() {
   const screen = document.querySelector(".screen > div");
   let number = screen.textContent;
   screen.textContent = number / 100;
 }
 
-// takes square root of value
+// function to take square root of value
 function squareRoot() {
   const screen = document.querySelector(".screen > div");
   let number = screen.textContent;
-  screen.textContent = Math.sqrt(number);
+  screen.textContent = +Math.sqrt(number).toFixed(5);
 }
 
-// shortens length of string value for output to screen
+// function to shorten length of string value for output to screen
 function shortenValueLength(value) {
   return value.length > 12 ? NaN : value;
 }
 
-//event listeners
-
-// event listner for numbers
-const digitKeys = document.querySelectorAll(".number");
-
-digitKeys.forEach((digit) => {
-  digit.addEventListener("click", writeDigitToScreen);
-});
-
-const operations = document.querySelectorAll(".operator");
-operations.forEach((operation) =>
-  operation.addEventListener("click", (e) => {
-    if (flag) {
-      const screen = document.querySelector(".screen > div");
-      digit2 = +screen.textContent;
-      screen.textContent = `${+operate(operator, digit1, digit2)}`;
-      digit1 = +screen.textContent;
-    } else {
-      updateDigitOne();
-      flag = true;
-    }
-    updateOperator(e.target.id);
-    flag2 = true;
-  })
-);
-
-const clear = document.getElementById("clr");
-clear.addEventListener("click", clearScreen);
-
-const equals = document.getElementById("equal");
-equals.addEventListener("click", () => {
+// function to assign operator
+function assignOperator(e) {
   const screen = document.querySelector(".screen > div");
-  digit2 = +screen.textContent;
+  if (flag) {
+    updateDigitTwo(+screen.textContent);
+    screen.textContent = `${+operate(operator, digit1, digit2)}`;
+    updateDigitOne(+screen.textContent);
+  } else {
+    updateDigitOne(+screen.textContent);
+    flag = true;
+  }
+  updateOperator(e.target.id);
+  flag2 = true;
+}
+
+// function to call calculation
+function callCalculation() {
+  const screen = document.querySelector(".screen > div");
+  updateDigitTwo(+screen.textContent);
   if (operator === "") {
     screen.textContent = "0";
   } else {
@@ -169,21 +180,37 @@ equals.addEventListener("click", () => {
       : (screen.textContent = +ammendedValue);
 
     flag = false;
-
     flag2 = false;
+    flag3 = true;
   }
+}
+
+// EVENT LISTENERS
+
+// event listner for number keys
+digitKeys.forEach((digit) => {
+  digit.addEventListener("click", writeDigitToScreen);
 });
 
-const decimalPoint = document.getElementById("decimal");
-decimalPoint.addEventListener("click", function () {
-  addDecimal();
-});
+// event listener for operator keys
+operations.forEach((operation) =>
+  operation.addEventListener("click", assignOperator)
+);
 
-const sign = document.getElementById("posNegSign");
+// event listener for clr key
+clear.addEventListener("click", clearScreen);
+
+// event listener for equals key
+equals.addEventListener("click", callCalculation);
+
+// event listener for  decimal key
+decimalPoint.addEventListener("click", addDecimal);
+
+// event listener for sign key
 sign.addEventListener("click", changeSign);
 
-const percent = document.getElementById("percent");
+//event listener for percent key
 percent.addEventListener("click", toPercentage);
 
-const sqrRoot = document.getElementById("root");
+// event listener for square root key
 sqrRoot.addEventListener("click", squareRoot);
