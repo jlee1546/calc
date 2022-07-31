@@ -141,7 +141,7 @@ operations.forEach((operation) =>
     if (flag) {
       const screen = document.querySelector(".screen > div");
       digit2 = +screen.textContent;
-      screen.textContent = `${+operate(operator, digit1, digit2).toFixed(5)}`;
+      screen.textContent = `${+operate(operator, digit1, digit2)}`;
       digit1 = +screen.textContent;
     } else {
       updateDigitOne();

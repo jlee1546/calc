@@ -104,10 +104,12 @@ img {
     0 4px 4px 1px rgba(0, 0, 0, 0.5);
   border-radius: 0.75rem;
   padding: 0.5rem;
+  transition: background-color 0.5s ease-out;
 }
 
 .keypad div:active {
   transform: scale(0.9);
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
 .keypad .number {
@@ -132,4 +134,14 @@ img {
 
 #decimal {
   background: rgb(255, 204, 0);
+}
+
+@media screen and (max-width: 475px) {
+  body {
+    height: 100vh;
+  }
+  .container {
+    width: 100%;
+    height: 90%;
+  }
 }
