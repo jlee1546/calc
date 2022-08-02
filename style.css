@@ -38,25 +38,25 @@ img {
 }
 /* End CSS reset */
 body {
+  height: 100vh;
   background: linear-gradient(to right, #e9f8ff, #90b2d8, #c1e3ff);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .container {
-  width: 50%;
-
+  min-width: 375px;
   margin: 3.5rem auto;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  flex: 2;
 }
 
 .screen {
   width: 100%;
-  height: 30%;
-  min-width: 250px;
-  max-width: 375px;
   background: rgb(234, 236, 236);
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -66,7 +66,6 @@ body {
 
 .screen div {
   background: rgb(222, 222, 230);
-  height: 90%;
   width: 90%;
   display: flex;
   justify-content: flex-end;
@@ -76,21 +75,18 @@ body {
   margin: 0.5rem;
   border-radius: 0.5rem;
   font-size: 2rem;
+  font-family: "Roboto Mono", monospace;
   border: 2px solid rgb(156, 155, 155);
 }
 
 .keypad {
   width: 100%;
-  min-width: 250px;
-  max-width: 375px;
-  height: 80%;
   background: rgb(234, 236, 236);
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   column-gap: 1rem;
   row-gap: 1rem;
   padding: 1rem;
-
   font-size: 2rem;
   border-bottom-left-radius: 0.75rem;
   border-bottom-right-radius: 0.75rem;
@@ -138,13 +134,24 @@ body {
   background: rgb(255, 204, 0);
 }
 
+.break {
+  flex: 0;
+}
+
+footer {
+  flex: 0;
+  padding: 2rem;
+}
+
 @media screen and (max-width: 475px) {
   body {
-    height: 100vh;
     background: black;
   }
   .container {
-    width: 100%;
-    height: 90%;
+    width: 85%;
+  }
+
+  footer {
+    visibility: hidden;
   }
 }
