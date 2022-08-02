@@ -40,7 +40,7 @@ function divide(a, b) {
 
 // FUNCTIONS REQUIRED IN OPERATION OF CALCULATOR APP
 
-// function to clear display
+// function to clear display, 'clr' key
 function clearScreen() {
   const screen = document.querySelector(".screen > div");
   screen.textContent = "0";
@@ -67,7 +67,7 @@ function operate(operator, a, b) {
   }
 }
 
-// fucntion to add a decimal point to screen
+// function to add a decimal point to screen, '.' key
 function addDecimal() {
   const screen = document.querySelector(".screen > div");
   let content = screen.textContent;
@@ -82,10 +82,9 @@ function addDecimal() {
   }
   flag2 = false;
 }
-// function to write digits to the screen
+// function to write digits to the screen, '0-9' keys
 function writeDigitToScreen(e) {
   const screen = document.querySelector(".screen > div");
-  console.log(typeof screen.textContent);
   if (flag2) {
     screen.textContent = "";
     screen.textContent = e.target.textContent;
@@ -125,21 +124,21 @@ function digitCounter(string) {
   return string.length;
 }
 
-// function to change sign of value
+// function to change sign of value, '(-)' key
 function changeSign() {
   const screen = document.querySelector(".screen > div");
   let number = screen.textContent;
   screen.textContent = -number;
 }
 
-// function to change value into a percentage
+// function to change value into a percentage, '%' key
 function toPercentage() {
   const screen = document.querySelector(".screen > div");
   let number = screen.textContent;
   screen.textContent = number / 100;
 }
 
-// function to take square root of value
+// function to take square root of value,  '√' key
 function squareRoot() {
   const screen = document.querySelector(".screen > div");
   let number = screen.textContent;
@@ -151,12 +150,12 @@ function shortenValueLength(value) {
   return value.length > 12 ? NaN : value;
 }
 
-// function to assign operator
+// function to assign operator,  '+,/,x,-' keys
 function assignOperator(e) {
   const screen = document.querySelector(".screen > div");
   if (flag) {
     updateDigitTwo(+screen.textContent);
-    screen.textContent = `${+operate(operator, digit1, digit2)}`;
+    screen.textContent = +operate(operator, digit1, digit2).toFixed(5);
     updateDigitOne(+screen.textContent);
   } else {
     updateDigitOne(+screen.textContent);
@@ -166,14 +165,14 @@ function assignOperator(e) {
   flag2 = true;
 }
 
-// function to call calculation
+// function to call calculation,  '=' key
 function callCalculation() {
   const screen = document.querySelector(".screen > div");
   updateDigitTwo(+screen.textContent);
   if (operator === "") {
     screen.textContent = "0";
   } else {
-    let value = operate(operator, digit1, digit2).toString(10);
+    let value = operate(operator, digit1, digit2).toFixed(5);
     let ammendedValue = shortenValueLength(value);
     isNaN(ammendedValue)
       ? (screen.textContent = "E-- value too large")
